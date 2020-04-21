@@ -26,7 +26,7 @@ SCHEMA_CMD = the command your run this container with
 all: push
 
 image:
-	docker build \
+	docker build -t fizzyjelly/io-lab-docker-ci:latest \
 		--build-arg SCHEMA_NAME="$(SCHEMA_NAME)" \
 		--build-arg SCHEMA_DESCRIPTION="$(SCHEMA_DESCRIPTION)" \
 		--build-arg SCHEMA_URL="$(SCHEMA_URL)" \
@@ -35,16 +35,13 @@ image:
 		--build-arg SCHEMA_VCS_REF="$(SCHEMA_VCS_REF)" \
 		--build-arg SCHEMA_BUILD_DATE="$(SCHEMA_BUILD_DATE)" \
 		--build-arg SCHEMA_BUILD_VERSION="$(SCHEMA_BUILD_VERSION)" \
-		--build-arg SCHEMA_CMD="$(SCHEMA_CMD)" \
-		--tag $(REPO_NAME):${TAG} \
-		--tag $(REPO_NAME):latest \
-		.
+		--build-arg SCHEMA_CMD="$(SCHEMA_CMD)" .
+
+	docker tag fizzyjelly/io-lab-docker-ci:latest fizzyjelly/io-lab-docker-ci:$(TAG)
 	
 push: image
-	docker tag $(REPO_NAME):latest fizzyjelly/io-lab-docker-ci-public:latest
-	docker tag $(REPO_NAME):$(TAG) fizzyjelly/io-lab-docker-ci-public:$(TAG)
-	docker push fizzyjelly/$(REPO_NAME):latest
-	docker push fizzyjelly/$(REPO_NAME):$(TAG)
+	docker push fizzyjelly/io-lab-docker-ci:latest
+	docker push fizzyjelly/io-lab-docker-ci:$(TAG)
 	
 clean:
 
