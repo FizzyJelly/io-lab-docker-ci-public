@@ -5,11 +5,11 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - .:/code
+      - '.:/code:Z'
     environment:
       REDIS_HOST: redis
       REDIS_PORT: 6379
   redis:
     image: redis:6.0-rc3
     volumes:
-      - ./data:/data
+      - 'data:/data:Z'
